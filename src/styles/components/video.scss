@@ -1,0 +1,42 @@
+.video {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 60px 0;
+
+    &__heading {
+        margin: 0;
+        color: var(--yellow);
+        font-size: 6rem;
+        font-weight: 800;
+        line-height: 1;
+        text-align: center;
+    }
+
+    &__container {
+        padding-bottom: 56.25%;
+        position: relative;
+        width: 100%;
+        overflow: hidden;
+    }
+
+    &__cover,
+    &__iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        max-width: none;
+        height: 100%;
+        border: none;
+        opacity: 1;
+        transition: var(--trs-long);
+    }
+
+    &__cover {
+        z-index: 1;
+
+        &--video-ready {
+            z-index: -1;
+        } 
+    }
+}

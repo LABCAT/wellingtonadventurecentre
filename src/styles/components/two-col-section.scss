@@ -1,0 +1,35 @@
+.two-col-section {
+    position: relative;
+    margin-bottom: 80px;
+    padding: var(--section-padding);
+    background-color: var(--white);
+
+    &__heading {
+        max-width: 800px;
+        margin-top: 0;
+        line-height: 1;
+        text-transform: uppercase;
+
+        &--right {
+            text-align: right;
+        }
+    }
+
+    &__grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        column-gap: 60px;
+
+        @include media(md) {
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+
+    &__text {
+        font-size: 2rem;
+    }
+
+    &__media {
+        font-size: 2rem;
+    }
+}

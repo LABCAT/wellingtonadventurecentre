@@ -1,0 +1,50 @@
+.groups-promo {
+    position: relative;
+    display: inline-block;
+    padding: 90px 50px;
+    color: var(--white);
+    font-size: 2rem;
+    font-weight: 700;
+
+    @include media(sm) {
+        padding: 90px 120px;
+    }
+
+    &::before {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        content: '';
+        background-color: var(--pink);
+        mask-image: url("/images/patterns/splash.webp");
+        mask-position: center center;
+        mask-repeat: no-repeat;
+        mask-size: 100% 100%;
+        object-fit: cover;
+    }
+
+    &__content {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        max-width: 188px;
+        margin: 0 auto;
+
+        @include media(sm) {
+            max-width: 100%;
+        }
+    }
+
+    &__cta {
+        color: var(--white);
+        text-decoration: underline;
+
+        &:hover {
+            color: var(--yellow);
+        }
+    }
+}

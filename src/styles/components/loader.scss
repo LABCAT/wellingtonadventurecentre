@@ -1,0 +1,52 @@
+.loader {
+    display: inline-block;
+    position: relative;
+    width: 120px;
+    height: 120px;
+
+    &__circle {
+        position: absolute;
+        border: 8px solid var(--blue);
+        opacity: 1;
+        border-radius: 50%;
+        animation: ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+
+        &--last {
+            animation-delay: -0.5s;
+        }
+    }
+}
+
+@keyframes ripple {
+    0% {
+        top: 60px;
+        left: 60px;
+        width: 0;
+        height: 0;
+        opacity: 0;
+    }
+
+    4.9% {
+        top: 60px;
+        left: 60px;
+        width: 0;
+        height: 0;
+        opacity: 0;
+    }
+
+    5% {
+        top: 60px;
+        left: 60px;
+        width: 0;
+        height: 0;
+        opacity: 1;
+    }
+
+    100% {
+        top: 0px;
+        left: 0px;
+        width: 120px;
+        height: 120px;
+        opacity: 0;
+    }
+}

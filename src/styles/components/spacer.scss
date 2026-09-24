@@ -1,0 +1,7 @@
+.spacer {
+    padding: 20px;
+
+    @include media(md) {
+        padding: 40px;
+    }
+}

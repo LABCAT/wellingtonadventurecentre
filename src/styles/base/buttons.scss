@@ -1,0 +1,24 @@
+.button {
+  display: flex;
+  align-items: center;
+  height: 60px;
+  padding: 0 20px;
+  background-color: var(--yellow);
+  border: none;
+  border-radius: 16px;
+  color: var(--black);
+  font-size: 20px;
+  font-weight: bold;
+  transition: all 0.5s;
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--blue);
+    color: var(--yellow);
+    transform: scale(1.1);
+  }
+
+  &--alt {
+    background-color: var(--white);
+  }
+}

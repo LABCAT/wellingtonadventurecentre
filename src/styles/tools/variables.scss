@@ -1,0 +1,45 @@
+
+:root {
+  // Basic colours
+  --black: #000;
+  --black-with-opacity: rgba(0, 0, 0, 0.8);
+  --white: #fff;
+  --blue: #27aae1;
+  --yellow: #ffde17;
+  --brown: #bb4426;
+  --pink: #ec008d;
+
+  // Surface
+  --surface-color: var(--white);
+
+  // Text
+  --ink-color: var(--black);
+  --ink-color-inverse: var(--white);
+  --ink-color-disabled: #9d9fa1;
+
+  --error-color: #ff2600;
+
+  // Transitions
+  --duration-short: 0.2s;
+  --duration-medium: 0.3s;
+  --duration-long: 0.5s;
+
+  --easing-default: cubic-bezier(0.77, 0, 0.175, 1); // Ease-in-out quatric
+
+  --trs-short: all var(--duration-short) var(--easing-default);
+  --trs-medium: all var(--duration-medium) var(--easing-default);
+  --trs-long: all var(--duration-long) var(--easing-default);
+  --trs-default: var(--trs-short);
+
+  // Containers
+  --gutter: 16px;
+  --safe-gutter-left: max(env(safe-area-inset-left), var(--gutter));
+  --safe-gutter-right: max(env(safe-area-inset-right), var(--gutter));
+  --safe-gutters: calc(var(--safe-gutter-left) + var(--safe-gutter-left));
+  --container-width: 800px;
+  --section-padding: 10px 0 20px;
+
+  @include media(lg) {
+    --container-width: 1200px;
+  }
+}

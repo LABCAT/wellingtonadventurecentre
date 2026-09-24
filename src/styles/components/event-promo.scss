@@ -1,0 +1,39 @@
+.event-promo {
+    position: absolute;
+    bottom: 20px;
+    display: flex;
+    align-items: flex-end;
+    width: 100%;
+    padding: 20px;
+    overflow: hidden;
+
+    @include media(md) {
+        bottom: 40px;
+        padding: 40px;
+    }
+
+    &__prize-sticker {
+        display: none;
+
+        @include media(lg) {
+            position: relative;
+            display: block;
+            transform: rotate(-10deg);
+            z-index: 3;
+        }
+    }
+
+    &__logo {
+        position: relative;
+        width: 200px;
+        height: 200px;
+        margin-left: auto;
+        transform: rotate(20deg);
+        z-index: 3;
+
+        @include media(md) {
+            width: 300px;
+            height: 300px;
+        }
+    }
+}

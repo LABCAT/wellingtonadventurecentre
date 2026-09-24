@@ -8,13 +8,17 @@ test.describe('Frontend', () => {
     page = await context.newPage()
   })
 
-  test('can go on homepage', async ({ page }) => {
-    await page.goto('http://localhost:3000')
+  test('homepage smoke test', async ({ page }) => {
+    const response = await page.goto('/')
 
-    await expect(page).toHaveTitle(/Payload Blank Template/)
+    expect(response?.status()).toBe(200)
+    await expect(page).toHaveTitle('Wellington Rafting')
 
     const heading = page.locator('h1').first()
+    await expect(heading).toContainText('Wellington Rafting')
 
-    await expect(heading).toHaveText('Welcome to your new project.')
+    await expect(page.locator('.site-header')).toBeVisible()
+    await expect(page.locator('.main-menu')).toBeVisible()
+    await expect(page.locator('footer.site-footer')).toBeVisible()
   })
 })

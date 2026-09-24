@@ -1,0 +1,66 @@
+.home-hero,
+.water-mask {
+    position: absolute;
+    top: 50vh;
+    right: 50vw;
+    bottom: 50vh;
+    left: 50vw;
+    background-size: cover;
+    opacity: 0;
+    transition: all 0.5s;
+
+    &--loaded {
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        opacity: 1;
+    }
+
+    &--mob-bg-pos-center {
+        background-position: center center;
+    }
+
+    &--mob-bg-pos-left {
+        background-position: left center;
+
+        @include media(xxl) {
+            background-position: center center;
+        }
+    }
+
+    &--mob-bg-pos-right {
+        background-position: right center;
+
+        @include media(xxl) {
+            background-position: center center;
+        }
+    }
+}
+
+.water-mask {
+    background-image: url(/images/water-mask.webp);
+    filter: url(#turbulence);
+}
+
+.hero-banner {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    &__blur,
+    &__image,
+    &__video {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center center;
+    }
+
+    &__blur {
+        z-index: -1;
+    }
+}

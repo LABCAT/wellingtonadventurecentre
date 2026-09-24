@@ -1,0 +1,302 @@
+// Super simple page transitions (progressive enhancement).
+// Chromium / Safari 18+ cross-fade on route change, elsewhere ignored.
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 250ms;
+  animation-timing-function: ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition {
+    navigation: none;
+  }
+}
+
+// App Router client-side navigations don't trigger cross-document
+// view transitions, so animate the template wrapper on each route change.
+// A brand-colour wipe reveals the new page while its sections
+// cascade in underneath.
+.page-wipe {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  pointer-events: none;
+  background-color: var(--blue);
+  animation: page-wipe-out 850ms cubic-bezier(0.76, 0, 0.24, 1) forwards;
+}
+
+@keyframes page-wipe-out {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(-101%);
+  }
+}
+
+.page-transition {
+  animation: page-fade 450ms ease;
+}
+
+.page-transition main > * {
+  animation: page-rise 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.page-transition main > *:nth-child(2) {
+  animation-delay: 80ms;
+}
+
+.page-transition main > *:nth-child(3) {
+  animation-delay: 160ms;
+}
+
+.page-transition main > *:nth-child(4) {
+  animation-delay: 240ms;
+}
+
+.page-transition main > *:nth-child(5) {
+  animation-delay: 320ms;
+}
+
+.page-transition main > *:nth-child(n + 6) {
+  animation-delay: 400ms;
+}
+
+@keyframes page-fade {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes page-rise {
+  from {
+    opacity: 0;
+    transform: translateY(36px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-wipe,
+  .page-transition,
+  .page-transition main > * {
+    animation: none;
+  }
+
+  .page-wipe {
+    display: none;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--surface-color);
+  height: 100%;
+  line-height: 1.5;
+  color: var(--ink-color);
+  font-size: 10px;
+  -webkit-font-smoothing: antialiased;
+
+  @media (min-resolution: 192dpi) {
+    -webkit-font-smoothing: auto;
+  }
+}
+
+body {
+  min-height: 100vh;
+  color: var(--black);
+  font-family: var(--font-open-sans), sans-serif;
+  font-weight: 400;
+}
+
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-top: 32px;
+  font-family: var(--font-rokkitt), serif;
+  font-weight: 600;
+  word-wrap: break-word;
+}
+
+h1 {
+  font-size: 4.8rem;
+  margin-bottom: 44px;
+}
+
+h2 {
+  font-size: 4.0rem;
+  margin-bottom: 36px;
+}
+
+h3 {
+  font-size: 3.2rem;
+  margin-bottom: 32px;
+}
+
+h4 {
+  font-size: 2.8rem;
+  margin-bottom: 28px;
+}
+
+h5 {
+  font-size: 2.4rem;
+  margin-bottom: 24px;
+}
+
+h6 {
+  font-size: 2.8rem;
+  margin-bottom: 20px;
+}
+
+p {
+  margin: 0 0 20px;
+}
+
+a {
+  color: var(--blue);
+  font-weight: 600;
+  text-decoration: none;
+  transition: var(--trs-default);
+
+  &:hover {
+    color: var(--yellow);
+  }
+}
+
+button {
+  border-radius: 4px;
+  font-weight: bold;
+  transition: all 0.5s;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+
+ul,
+ol {
+  margin: 0 0 32px;
+  padding: 0 0 0 32px;
+
+  li {
+    margin: 0 0 12px;
+
+    ul,
+    ol {
+      margin: 12px 0 24px;
+    }
+  }
+}
+
+ol {
+  li {
+    padding-left: 4px;
+  }
+}
+
+dl {
+  display: flex;
+  flex-wrap: wrap;
+
+  dt,
+  dd {
+    margin-bottom: 20px;
+  }
+
+  dt {
+    width: 33%;
+    font-weight: bold;
+  }
+
+  dd {
+    margin-left: auto;
+    width: 66%;
+  }
+}
+
+blockquote {
+  margin: 0 0 16px;
+  padding: 12px 24px;
+  border-left: 4px solid var(--primary-color);
+
+  p {
+    margin: 0;
+  }
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+svg {
+  max-width: 100%;
+}
+
+picture {
+  display: block;
+}
+
+figure {
+  margin: 0;
+}
+
+table {
+  width: 100%;
+  margin: 0 0 20px;
+  border-collapse: collapse;
+}
+
+td,
+th {
+  padding: 8px;
+  border: 2px solid var(--black);
+}
+
+iframe body {
+  background-color: transparent;
+}
+
+pre {
+  white-space: normal;
+}
+
+// prevent space from sanitize.css
+nav li::before {
+  position: absolute;
+}
+
+// override sanitize.css
+[aria-controls] {
+  cursor: default;
+}
+
+.typography {
+  > :first-child {
+    margin-top: 0;
+  }
+
+  > :last-child {
+    margin-bottom: 0;
+  }
+}

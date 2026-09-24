@@ -1,59 +1,62 @@
-import { headers as getHeaders } from 'next/headers.js'
-import Image from 'next/image'
-import { getPayload } from 'payload'
 import React from 'react'
-import { fileURLToPath } from 'url'
+import { cache } from 'react'
+import type { Metadata } from 'next'
+import { getPayload } from 'payload'
+import config from '@payload-config'
+import { Header, PageIntro, AdventurePromo, ProductPromo, GroupsPromo, FeatureBlock, Spacer } from '@/components'
 
-import config from '@/payload.config'
-import './styles.css'
+const getHomePage = cache(async () => {
+  const payload = await getPayload({ config })
+  return payload.findGlobal({ slug: 'home-page', depth: 3 })
+})
+
+export async function generateMetadata(): Promise<Metadata> {
+  const page = await getHomePage()
+  return {
+    title: page.title || 'Wellington Rafting',
+    description: page.meta_description || undefined,
+  }
+}
 
 export default async function HomePage() {
-  const headers = await getHeaders()
-  const payloadConfig = await config
-  const payload = await getPayload({ config: payloadConfig })
-  const { user } = await payload.auth({ headers })
-
-  const fileURL = `vscode://file/${fileURLToPath(import.meta.url)}`
+  const page = await getHomePage()
+  const hasFeatureBlocks = page?.blocks?.some((block) => block.blockType === 'featureBlock')
 
   return (
-    <div className="home">
-      <div className="content">
-        <picture>
-          <source srcSet="https://raw.githubusercontent.com/payloadcms/payload/3.x/packages/ui/src/assets/payload-favicon.svg" />
-          <Image
-            alt="Payload Logo"
-            height={65}
-            src="https://raw.githubusercontent.com/payloadcms/payload/3.x/packages/ui/src/assets/payload-favicon.svg"
-            width={65}
-          />
-        </picture>
-        {!user && <h1>Welcome to your new project.</h1>}
-        {user && <h1>Welcome back, {user.email}</h1>}
-        <div className="links">
-          <a
-            className="admin"
-            href={payloadConfig.routes.admin}
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            Go to admin panel
-          </a>
-          <a
-            className="docs"
-            href="https://payloadcms.com/docs"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            Documentation
-          </a>
-        </div>
-      </div>
-      <div className="footer">
-        <p>Update this page by editing</p>
-        <a className="codeLink" href={fileURL}>
-          <code>app/(frontend)/page.tsx</code>
-        </a>
-      </div>
-    </div>
+    <>
+      <Header
+        isHomePage={true}
+        heroImage="Wellington-Rafting-Hero-Video-Cover.webp"
+      />
+      <main className="main">
+        <PageIntro intro={page?.intro}>
+          <GroupsPromo />
+          <div className="page-intro__cta">
+            <a
+              href="https://fareharbor.com/embeds/book/wellingtonrafting/?full-items=yes"
+              target="_blank"
+              rel="noreferrer"
+              className="page-intro__cta-button button"
+            >
+              Book Now
+            </a>
+            <a href="/contact" className="page-intro__cta-button button">
+              Contact Us
+            </a>
+          </div>
+        </PageIntro>
+        <ProductPromo promoImage="/images/hero-banners/Wellington-Rafting-Truck-Billboard.webp" />
+        {(page?.show_adventure_promos !== false) && page?.promos && page.promos.map((promo: any, i: number) => (
+          <AdventurePromo {...promo} key={i} />
+        ))}
+        {page?.show_adventure_promos === false && hasFeatureBlocks && page.blocks.map((block, i) => {
+          if (block.blockType === 'featureBlock') {
+            return <FeatureBlock key={block.id ?? i} {...block} />
+          }
+          return null
+        })}
+        {page?.show_adventure_promos === false && hasFeatureBlocks && <Spacer />}
+      </main>
+    </>
   )
 }

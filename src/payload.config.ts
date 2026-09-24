@@ -7,9 +7,23 @@ import { fileURLToPath } from 'url'
 import { CloudflareContext, getCloudflareContext } from '@opennextjs/cloudflare'
 import { GetPlatformProxyOptions } from 'wrangler'
 import { r2Storage } from '@payloadcms/storage-r2'
+import { resendAdapter } from '@payloadcms/email-resend'
+import { nestedDocsPlugin } from '@payloadcms/plugin-nested-docs'
 
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
+import { PageIntro } from './collections/PageIntro'
+import { TourPages } from './collections/TourPages'
+import { TourProducts } from './collections/TourProducts'
+import { PromoPages } from './collections/PromoPages'
+import { EventPages } from './collections/EventPages'
+import { ContentPanels } from './collections/ContentPanels'
+import { BookingEnquiry } from './collections/BookingEnquiry'
+import { AdventurePromo } from './collections/AdventurePromo'
+import { HomePage } from './globals/HomePage'
+import { AboutPage } from './globals/AboutPage'
+import { RiskDisclosurePage } from './globals/RiskDisclosurePage'
+import { ContactPage } from './globals/ContactPage'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -30,6 +44,10 @@ const isCLI = process.argv.some((value) => {
   )
 })
 const isProduction = process.env.NODE_ENV === 'production'
+// Next 16 collects page data in jest-worker child processes, so `isCLI` no
+// longer detects `next build`. Force local bindings during the build phase
+// instead of connecting to the deployed Worker's remote bindings.
+const isBuild = process.env.NEXT_PHASE === 'phase-production-build'
 
 const createLog =
   (level: string, fn: typeof console.log) => (objOrMsg: object | string, msg?: string) => {
@@ -48,12 +66,12 @@ const cloudflareLogger = {
   warn: createLog('warn', console.warn),
   error: createLog('error', console.error),
   fatal: createLog('fatal', console.error),
-  silent: () => { },
+  silent: () => {},
 } as any // Use PayloadLogger type when it's exported
 
 const cloudflare =
-  isCLI || !isProduction
-    ? await getCloudflareContextFromWrangler()
+  isCLI || isBuild || !isProduction
+    ? await getCloudflareContextFromWrangler(!isBuild && isProduction)
     : await getCloudflareContext({ async: true })
 
 export default buildConfig({
@@ -63,29 +81,47 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media],
+  collections: [Users, Media, PageIntro, TourPages, TourProducts, PromoPages, EventPages, ContentPanels, BookingEnquiry, AdventurePromo],
+  globals: [HomePage, AboutPage, RiskDisclosurePage, ContactPage],
   editor: lexicalEditor(),
+  email: resendAdapter({
+    defaultFromAddress: 'info@wellingtonrafting.nz',
+    defaultFromName: 'Wellington Rafting',
+    apiKey: process.env.RESEND_API_KEY || '',
+  }),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
-  db: sqliteD1Adapter({ binding: cloudflare.env.D1 }),
+  // Schema is managed by migrations (see src/migrations/ and `payload migrate`).
+  // Dev-time schema push is disabled: it misdetects diffs against
+  // migration-built databases (e.g. a production sync) and crashes boot
+  // trying to re-create indexes that already exist. It must also never
+  // run against the remote DB via `dev-remote`.
+  db: sqliteD1Adapter({ binding: cloudflare.env.D1, push: false }),
   logger: isProduction ? cloudflareLogger : undefined,
   plugins: [
     r2Storage({
       bucket: cloudflare.env.R2,
       collections: { media: true },
     }),
+    nestedDocsPlugin({
+      collections: ['event-pages'],
+      generateURL: (docs) =>
+        docs.reduce((url, doc) => (doc.slug ? `${url}/${doc.slug}` : url), ''),
+    }),
   ],
 })
 
 // Adapted from https://github.com/opennextjs/opennextjs-cloudflare/blob/d00b3a13e42e65aad76fba41774815726422cc39/packages/cloudflare/src/api/cloudflare-context.ts#L328C36-L328C46
-function getCloudflareContextFromWrangler(): Promise<CloudflareContext> {
+function getCloudflareContextFromWrangler(
+  remoteBindings: boolean = isProduction,
+): Promise<CloudflareContext> {
   return import(/* webpackIgnore: true */ `${'__wrangler'.replaceAll('_', '')}`).then(
     ({ getPlatformProxy }) =>
       getPlatformProxy({
         environment: process.env.CLOUDFLARE_ENV,
-        remoteBindings: isProduction,
+        remoteBindings,
       } satisfies GetPlatformProxyOptions),
   )
 }

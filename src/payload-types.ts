@@ -69,6 +69,14 @@ export interface Config {
   collections: {
     users: User;
     media: Media;
+    'page-intro': PageIntro;
+    'tour-pages': TourPage;
+    'tour-products': TourProduct;
+    'promo-pages': PromoPage;
+    'event-pages': EventPage;
+    'content-panels': ContentPanel;
+    'booking-enquiry': BookingEnquiry;
+    'adventure-promo': AdventurePromo;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -78,6 +86,14 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    'page-intro': PageIntroSelect<false> | PageIntroSelect<true>;
+    'tour-pages': TourPagesSelect<false> | TourPagesSelect<true>;
+    'tour-products': TourProductsSelect<false> | TourProductsSelect<true>;
+    'promo-pages': PromoPagesSelect<false> | PromoPagesSelect<true>;
+    'event-pages': EventPagesSelect<false> | EventPagesSelect<true>;
+    'content-panels': ContentPanelsSelect<false> | ContentPanelsSelect<true>;
+    'booking-enquiry': BookingEnquirySelect<false> | BookingEnquirySelect<true>;
+    'adventure-promo': AdventurePromoSelect<false> | AdventurePromoSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -87,8 +103,18 @@ export interface Config {
     defaultIDType: number;
   };
   fallbackLocale: null;
-  globals: {};
-  globalsSelect: {};
+  globals: {
+    'home-page': HomePage;
+    'about-page': AboutPage;
+    'risk-disclosure-page': RiskDisclosurePage;
+    'contact-page': ContactPage;
+  };
+  globalsSelect: {
+    'home-page': HomePageSelect<false> | HomePageSelect<true>;
+    'about-page': AboutPageSelect<false> | AboutPageSelect<true>;
+    'risk-disclosure-page': RiskDisclosurePageSelect<false> | RiskDisclosurePageSelect<true>;
+    'contact-page': ContactPageSelect<false> | ContactPageSelect<true>;
+  };
   locale: null;
   widgets: {
     collections: CollectionsWidget;
@@ -163,6 +189,226 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "page-intro".
+ */
+export interface PageIntro {
+  id: number;
+  title?: string | null;
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tour-pages".
+ */
+export interface TourPage {
+  id: number;
+  title: string;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
+  hero_image?: string | null;
+  hero_image_mobile_background_position?: ('center' | 'left' | 'right') | null;
+  meta_description?: string | null;
+  intro?: (number | null) | PageIntro;
+  products?: (number | TourProduct)[] | null;
+  youtube_video?: {
+    youtube_id?: string | null;
+    video_cover?: string | null;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tour-products".
+ */
+export interface TourProduct {
+  id: number;
+  title?: string | null;
+  hero_image?: string | null;
+  hero_image_blur_hash?: string | null;
+  image_alignment?: ('left' | 'right') | null;
+  vertical_image_alignment?: ('top' | 'center' | 'bottom') | null;
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  pricing_info?: string | null;
+  fareharbour_url?: string | null;
+  show_discounts?: boolean | null;
+  sort?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "promo-pages".
+ */
+export interface PromoPage {
+  id: number;
+  title: string;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
+  hero_image?: string | null;
+  hero_image_blur_hash?: string | null;
+  hero_image_mobile_background_position?: ('center' | 'left' | 'right') | null;
+  meta_title?: string | null;
+  meta_description?: string | null;
+  intro?: (number | null) | PageIntro;
+  content_panels?: (number | ContentPanel)[] | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "content-panels".
+ */
+export interface ContentPanel {
+  id: number;
+  title?: string | null;
+  hero_image?: string | null;
+  hero_image_blur_hash?: string | null;
+  image_alignment?: ('left' | 'right') | null;
+  vertical_image_alignment?: ('top' | 'center' | 'bottom') | null;
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  sort?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "event-pages".
+ */
+export interface EventPage {
+  id: number;
+  title: string;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
+  hero_image?: string | null;
+  hero_image_blur_hash?: string | null;
+  hero_image_mobile_background_position?: ('center' | 'left' | 'right') | null;
+  meta_description?: string | null;
+  intro?: (number | null) | PageIntro;
+  content_panels?: (number | ContentPanel)[] | null;
+  youtube_video?: {
+    youtube_id?: string | null;
+    video_cover?: string | null;
+  };
+  parent?: (number | null) | EventPage;
+  breadcrumbs?:
+    | {
+        doc?: (number | null) | EventPage;
+        url?: string | null;
+        label?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "booking-enquiry".
+ */
+export interface BookingEnquiry {
+  id: number;
+  name: string;
+  email: string;
+  phone_number: string;
+  tour_type?:
+    | (
+        | 'Grade 3 Wilderness Rafting Tour'
+        | 'Grade 2 Scenic Rafting - Wellington'
+        | 'Grade 2 Scenic Rafting - Wairarapa'
+        | 'Grade 3 Wilderness Inflatable 2 Person Kayak/Duckie Tours'
+        | 'Grade 2 Scenic Inflatable 2 Person Kayak Tours'
+        | 'Akatarawa Canyoning'
+        | 'Premium Helicopter Access Whitewater Rafting'
+        | 'Raft & Abseil Combo - Wairarapa'
+        | 'Bikes and Boats Tour - Wairarapa'
+        | 'Hike In Raft Out Overnight Tour - Wairarapa'
+        | 'Ropes and Rivers Tour - Wellington'
+      )
+    | null;
+  date?: string | null;
+  number_of_people?: number | null;
+  additional_info?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "adventure-promo".
+ */
+export interface AdventurePromo {
+  id: number;
+  heading?: string | null;
+  style?: ('left' | 'right') | null;
+  intro?: string | null;
+  hero_image?: string | null;
+  sidekick_image?: string | null;
+  tours?:
+    | {
+        link?: string | null;
+        heading?: string | null;
+        text?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -192,6 +438,38 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'media';
         value: number | Media;
+      } | null)
+    | ({
+        relationTo: 'page-intro';
+        value: number | PageIntro;
+      } | null)
+    | ({
+        relationTo: 'tour-pages';
+        value: number | TourPage;
+      } | null)
+    | ({
+        relationTo: 'tour-products';
+        value: number | TourProduct;
+      } | null)
+    | ({
+        relationTo: 'promo-pages';
+        value: number | PromoPage;
+      } | null)
+    | ({
+        relationTo: 'event-pages';
+        value: number | EventPage;
+      } | null)
+    | ({
+        relationTo: 'content-panels';
+        value: number | ContentPanel;
+      } | null)
+    | ({
+        relationTo: 'booking-enquiry';
+        value: number | BookingEnquiry;
+      } | null)
+    | ({
+        relationTo: 'adventure-promo';
+        value: number | AdventurePromo;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -277,6 +555,157 @@ export interface MediaSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "page-intro_select".
+ */
+export interface PageIntroSelect<T extends boolean = true> {
+  title?: T;
+  content?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tour-pages_select".
+ */
+export interface TourPagesSelect<T extends boolean = true> {
+  title?: T;
+  generateSlug?: T;
+  slug?: T;
+  hero_image?: T;
+  hero_image_mobile_background_position?: T;
+  meta_description?: T;
+  intro?: T;
+  products?: T;
+  youtube_video?:
+    | T
+    | {
+        youtube_id?: T;
+        video_cover?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tour-products_select".
+ */
+export interface TourProductsSelect<T extends boolean = true> {
+  title?: T;
+  hero_image?: T;
+  hero_image_blur_hash?: T;
+  image_alignment?: T;
+  vertical_image_alignment?: T;
+  description?: T;
+  pricing_info?: T;
+  fareharbour_url?: T;
+  show_discounts?: T;
+  sort?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "promo-pages_select".
+ */
+export interface PromoPagesSelect<T extends boolean = true> {
+  title?: T;
+  generateSlug?: T;
+  slug?: T;
+  hero_image?: T;
+  hero_image_blur_hash?: T;
+  hero_image_mobile_background_position?: T;
+  meta_title?: T;
+  meta_description?: T;
+  intro?: T;
+  content_panels?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "event-pages_select".
+ */
+export interface EventPagesSelect<T extends boolean = true> {
+  title?: T;
+  generateSlug?: T;
+  slug?: T;
+  hero_image?: T;
+  hero_image_blur_hash?: T;
+  hero_image_mobile_background_position?: T;
+  meta_description?: T;
+  intro?: T;
+  content_panels?: T;
+  youtube_video?:
+    | T
+    | {
+        youtube_id?: T;
+        video_cover?: T;
+      };
+  parent?: T;
+  breadcrumbs?:
+    | T
+    | {
+        doc?: T;
+        url?: T;
+        label?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "content-panels_select".
+ */
+export interface ContentPanelsSelect<T extends boolean = true> {
+  title?: T;
+  hero_image?: T;
+  hero_image_blur_hash?: T;
+  image_alignment?: T;
+  vertical_image_alignment?: T;
+  description?: T;
+  sort?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "booking-enquiry_select".
+ */
+export interface BookingEnquirySelect<T extends boolean = true> {
+  name?: T;
+  email?: T;
+  phone_number?: T;
+  tour_type?: T;
+  date?: T;
+  number_of_people?: T;
+  additional_info?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "adventure-promo_select".
+ */
+export interface AdventurePromoSelect<T extends boolean = true> {
+  heading?: T;
+  style?: T;
+  intro?: T;
+  hero_image?: T;
+  sidekick_image?: T;
+  tours?:
+    | T
+    | {
+        link?: T;
+        heading?: T;
+        text?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv_select".
  */
 export interface PayloadKvSelect<T extends boolean = true> {
@@ -314,6 +743,162 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "home-page".
+ */
+export interface HomePage {
+  id: number;
+  title?: string | null;
+  meta_description?: string | null;
+  intro?: (number | null) | PageIntro;
+  show_adventure_promos?: boolean | null;
+  promos?: (number | AdventurePromo)[] | null;
+  blocks?:
+    | {
+        image: number | Media;
+        heading: string;
+        heading_level?: ('h2' | 'h3') | null;
+        link?: string | null;
+        content?: string | null;
+        image_position?: ('left' | 'right') | null;
+        vertical_image_position?: ('top' | 'center' | 'bottom') | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'featureBlock';
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "about-page".
+ */
+export interface AboutPage {
+  id: number;
+  title?: string | null;
+  hero_image?: string | null;
+  hero_image_mobile_background_position?: ('center' | 'left' | 'right') | null;
+  meta_description?: string | null;
+  intro?: (number | null) | PageIntro;
+  youtube_video?: {
+    youtube_id?: string | null;
+    video_cover?: string | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "risk-disclosure-page".
+ */
+export interface RiskDisclosurePage {
+  id: number;
+  title?: string | null;
+  hero_image?: string | null;
+  hero_image_mobile_background_position?: ('center' | 'left' | 'right') | null;
+  meta_description?: string | null;
+  intro?: (number | null) | PageIntro;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-page".
+ */
+export interface ContactPage {
+  id: number;
+  title?: string | null;
+  hero_image?: string | null;
+  hero_image_mobile_background_position?: ('center' | 'left' | 'right') | null;
+  meta_description?: string | null;
+  /**
+   * Email address that will receive booking enquiry notification emails.
+   */
+  email_address?: string | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "home-page_select".
+ */
+export interface HomePageSelect<T extends boolean = true> {
+  title?: T;
+  meta_description?: T;
+  intro?: T;
+  show_adventure_promos?: T;
+  promos?: T;
+  blocks?:
+    | T
+    | {
+        featureBlock?:
+          | T
+          | {
+              image?: T;
+              heading?: T;
+              heading_level?: T;
+              link?: T;
+              content?: T;
+              image_position?: T;
+              vertical_image_position?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "about-page_select".
+ */
+export interface AboutPageSelect<T extends boolean = true> {
+  title?: T;
+  hero_image?: T;
+  hero_image_mobile_background_position?: T;
+  meta_description?: T;
+  intro?: T;
+  youtube_video?:
+    | T
+    | {
+        youtube_id?: T;
+        video_cover?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "risk-disclosure-page_select".
+ */
+export interface RiskDisclosurePageSelect<T extends boolean = true> {
+  title?: T;
+  hero_image?: T;
+  hero_image_mobile_background_position?: T;
+  meta_description?: T;
+  intro?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-page_select".
+ */
+export interface ContactPageSelect<T extends boolean = true> {
+  title?: T;
+  hero_image?: T;
+  hero_image_mobile_background_position?: T;
+  meta_description?: T;
+  email_address?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

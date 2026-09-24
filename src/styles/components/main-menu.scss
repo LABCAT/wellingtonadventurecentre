@@ -1,0 +1,228 @@
+.main-menu {
+    position: fixed;
+    top: 0;
+    left: -100vw;
+    display: block;
+    width: 100%;
+    height: 480px;
+    min-height: 100vh;
+    transition: var(--trs-long);
+    padding: 30px;
+
+    @include media(sm) {
+        max-width: 400px;
+    }
+
+    @include media(xl) {
+        // position: absolute;
+        // left: -40px!important;
+        // height: 600px;
+        // transition: 0s;
+    }
+
+    &--open {
+        width: 100%;
+        left: 0;
+    }
+
+    &__bg,
+    &__bg-image {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+    }
+
+    &__bg {
+        background-color: var(--black);
+    }
+
+
+    &__nav-items {
+        position: relative;
+        z-index: 3;
+    }
+
+    &__logo {
+        max-width: 200px;
+        margin-bottom: 20px;
+
+        @include media(xl) {
+            max-width: 100%;
+        }
+    }
+    
+
+    &__link {
+        display: flex;
+        align-items: center;
+        padding: 10px 0;
+        color: var(--blue);
+        font-size: 2rem;
+        font-weight: 700;
+        white-space: pre-wrap;
+
+        @include media(min-lg){
+            padding: 0;
+        }
+
+        &:hover {
+            color: var(--yellow);
+
+            .main-menu__icon {
+                fill: var(--yellow);
+            }
+
+        }
+
+        &--current {
+            color: var(--white);
+        }
+
+        &--submenu-open {
+            display: none;
+        }
+
+        &--sub {
+            display: none;
+            padding: 10px 0;
+            font-weight: 600;
+        }
+
+        &--sub-visible {
+            display: block;
+        }
+    }
+
+    &__icon {
+        width: 48px;
+        height: 48px;
+        margin-right: 10px;
+    }
+
+    &__submenu {
+        position: absolute;
+        z-index: 4;
+        top: 0;
+        left: -100vw;
+        display: flex;
+        align-items: flex-start;
+        width: calc(100% + 60px);
+        height: 480px;
+        min-height: 100vh;
+        padding: 100px 30px 20px;
+        transition: var(--trs-default);
+
+        @include media(xl){
+            padding: 140px 30px 20px;
+        }
+
+        &--open {
+            left: -30px;
+        }
+    }
+
+    &__submenu-items {
+        width: 100%;
+    }
+
+    &__cta {
+        @extend .button;
+        display: inline-flex;
+        float: right;
+        margin-top: 20px;
+
+        &--submenu-open {
+            display: none;
+        }
+    }
+}
+
+.menu-toggle,
+.submenu-toggle {
+    position: relative;
+    z-index: 3;
+    padding: 0;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+
+    &:hover {
+        .submenu-toggle__icon {
+            fill: var(--yellow);
+        }
+    }
+
+    &__icon {
+        position: relative;
+    }
+
+    &__arrow {
+        transform: translate(80px, 0px);
+        transition: transform 0.75s;
+    }
+}
+
+.menu-toggle {
+
+    @include media(xl) {
+        padding: 10px 5px 10px 10px;
+        background-color: var(--black);
+        border-radius: 50%;
+    }
+
+    &--open .menu-toggle__arrow {
+        transform: translate(0);
+    }
+
+    &__icon {
+        width: 40px;
+        height: 40px;
+        fill: var(--yellow);   
+    }
+}
+
+.submenu-toggle {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    border-radius: 0;
+
+    &:hover {
+        transform: none;
+    }
+
+    &--open {
+        display: none;
+    }
+
+    &--close {
+        width: auto;
+        margin-right: 10px;
+    }
+
+    &__text {
+        display: block;
+        margin-right: auto;
+    }
+
+    &__icon {
+        z-index: 2;
+        width: 32px;
+        height: 32px;
+        fill: var(--blue);
+        animation: spin-reverse 0.25s 1 linear;
+        transform:rotateX(0deg);
+
+        &--current {
+            fill: var(--white);
+        }
+
+        &--close {
+            width: 48px;
+            height: 48px;
+        }
+    }
+}
