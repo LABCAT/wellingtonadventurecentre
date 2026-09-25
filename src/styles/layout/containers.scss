@@ -1,0 +1,23 @@
+.container {
+  padding-right: max(env(safe-area-inset-right), var(--gutter));
+  padding-left: max(env(safe-area-inset-left), var(--gutter));
+  width: 100%;
+  max-width: calc(var(--container-width) + var(--safe-gutters) * 2);
+  margin-inline: auto;
+
+  &--narrow {
+    --container-width: 600px;
+  }
+
+  &--wide {
+    --gutter: 32px;
+    --container-width: 1800px;
+    padding-right: 0;
+    padding-left: 0;
+
+    @include media(md) {
+      padding-right: max(env(safe-area-inset-right), var(--gutter));
+      padding-left: max(env(safe-area-inset-left), var(--gutter));
+    }
+  }
+}

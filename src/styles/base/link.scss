@@ -1,0 +1,10 @@
+a.link {
+    &--yellow-hover-black {
+        color: var(--yellow);
+        font-weight: bold;
+
+        &:hover {
+            color: var(--black);
+        }
+    }
+}

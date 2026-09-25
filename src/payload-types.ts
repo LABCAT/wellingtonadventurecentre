@@ -87,8 +87,12 @@ export interface Config {
     defaultIDType: number;
   };
   fallbackLocale: null;
-  globals: {};
-  globalsSelect: {};
+  globals: {
+    'home-page': HomePage;
+  };
+  globalsSelect: {
+    'home-page': HomePageSelect<false> | HomePageSelect<true>;
+  };
   locale: null;
   widgets: {
     collections: CollectionsWidget;
@@ -150,6 +154,10 @@ export interface User {
 export interface Media {
   id: number;
   alt: string;
+  /**
+   * Placeholder blur shown while the image loads. Auto-generated from the image.
+   */
+  blurhash?: string | null;
   _objectKey?: string | null;
   updatedAt: string;
   createdAt: string;
@@ -264,6 +272,7 @@ export interface UsersSelect<T extends boolean = true> {
  */
 export interface MediaSelect<T extends boolean = true> {
   alt?: T;
+  blurhash?: T;
   _objectKey?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -314,6 +323,152 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "home-page".
+ */
+export interface HomePage {
+  id: number;
+  title?: string | null;
+  /**
+   * Hero tagline overlaid on the homepage video banner. Use a line break for two lines.
+   */
+  tagline?: string | null;
+  metaDescription?: string | null;
+  /**
+   * Heading shown above the homepage intro copy.
+   */
+  introTitle?: string | null;
+  /**
+   * Intro copy shown below the hero banner.
+   */
+  intro?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Blocks rendered below the intro on the home page.
+   */
+  blocks?:
+    | (
+        | {
+            image: number | Media;
+            heading: string;
+            /**
+             * Placeholder blur shown while the image loads. Auto-generated from the image.
+             */
+            blurhash?: string | null;
+            headingLevel?: ('h2' | 'h3') | null;
+            link?: string | null;
+            content?: string | null;
+            imagePosition?: ('left' | 'right') | null;
+            verticalImagePosition?: ('top' | 'center' | 'bottom') | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'featureBlock';
+          }
+        | {
+            image: number | Media;
+            /**
+             * Placeholder blur shown while the image loads. Auto-generated from the image.
+             */
+            blurhash?: string | null;
+            heading: string;
+            description?: {
+              root: {
+                type: string;
+                children: {
+                  type: any;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            } | null;
+            pricingInfo?: string | null;
+            /**
+             * Booking link. Leave empty to show a Call Now button instead.
+             */
+            fareharborUrl?: string | null;
+            /**
+             * Tour page link. Leave empty to hide the Find Out More button.
+             */
+            moreInfoUrl?: string | null;
+            showDiscounts?: boolean | null;
+            imagePosition?: ('left' | 'right') | null;
+            verticalImagePosition?: ('top' | 'center' | 'bottom') | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'tourBlock';
+          }
+      )[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "home-page_select".
+ */
+export interface HomePageSelect<T extends boolean = true> {
+  title?: T;
+  tagline?: T;
+  metaDescription?: T;
+  introTitle?: T;
+  intro?: T;
+  blocks?:
+    | T
+    | {
+        featureBlock?:
+          | T
+          | {
+              image?: T;
+              heading?: T;
+              blurhash?: T;
+              headingLevel?: T;
+              link?: T;
+              content?: T;
+              imagePosition?: T;
+              verticalImagePosition?: T;
+              id?: T;
+              blockName?: T;
+            };
+        tourBlock?:
+          | T
+          | {
+              image?: T;
+              blurhash?: T;
+              heading?: T;
+              description?: T;
+              pricingInfo?: T;
+              fareharborUrl?: T;
+              moreInfoUrl?: T;
+              showDiscounts?: T;
+              imagePosition?: T;
+              verticalImagePosition?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

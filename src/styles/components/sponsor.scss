@@ -1,0 +1,61 @@
+.sponsor {
+    display: flex;
+    flex-direction: column;
+    align-self: stretch;
+    max-width: 300px;
+    padding: 20px;
+    background-color: var(--white);
+
+    @include media(sm) {
+        max-width: 270px;
+    }
+
+    @include media(md) {
+        max-width: 300px;
+    }
+
+    &__logo-holder {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 260px;
+    }
+
+    &__heading {
+        height: 64px;
+        margin: 0 0 20px;
+        text-align: center;
+        line-height: 1;
+    }
+
+    &__details {
+        font-size: 1.5rem;
+        text-align: center;
+    }
+
+    &__website {
+        display: flex;
+        align-items: center;
+        margin-top: auto;
+        font-size: 1.5rem;
+
+        &--social:hover {
+            transform: scale(1.1);
+        }
+    }
+
+    &__social-links {
+        display: flex;
+        align-items: center;
+    }
+
+    &__website-icon svg {
+        width: 48px;
+        height: 48px;
+    }
+
+    &__website-address {
+        width: calc(100% - 56px);
+        margin-left: auto;
+    }
+}

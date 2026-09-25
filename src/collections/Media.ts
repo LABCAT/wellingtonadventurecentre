@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { blurhashField } from '../fields/blurhash'
 
 export const Media: CollectionConfig = {
   slug: 'media',
@@ -11,6 +12,7 @@ export const Media: CollectionConfig = {
       type: 'text',
       required: true,
     },
+    blurhashField(),
   ],
   upload: {
     // These are not supported on Workers yet due to lack of sharp

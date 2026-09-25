@@ -1,0 +1,20 @@
+.promo-heading {
+    font-weight: 800;
+    line-height: 1;
+
+    &--blue {
+        color: var(--blue);
+    }
+
+    &--yellow {
+        color: var(--yellow);
+    }
+
+    &--brown {
+        color: var(--brown);
+    }
+
+    &--centered {
+        text-align: center;
+    }
+}

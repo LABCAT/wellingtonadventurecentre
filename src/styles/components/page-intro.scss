@@ -1,0 +1,36 @@
+.page-intro {
+    position: relative;
+    margin-bottom: 80px;
+    padding: var(--section-padding);
+    background-color: var(--black);
+    color: var(--white);
+    text-align: center;
+
+    &__heading {
+        line-height: 1;
+        text-transform: uppercase;
+    }
+
+    &__content {
+        font-size: 2rem;
+    }
+
+    &__cta {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        padding: 20px 0;
+
+        @include media(sm){
+            gap: 20px;
+        }
+    }
+
+    &__cta-button {
+        padding: 0 12px;
+
+        @include media(sm) {
+            padding: 0 20px;
+        }
+    }
+}

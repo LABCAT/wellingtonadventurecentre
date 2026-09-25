@@ -1,0 +1,24 @@
+.reviews-section {
+    margin: 40px auto 80px;
+
+    @include media(lg) {
+        margin: 40px auto 120px;
+    }
+
+    &__heading {
+        line-height: 1;
+        text-align: center;
+        text-transform: uppercase;
+    }
+
+    &__sub-heading {
+        display: block;
+        font-size: 2rem;
+    }
+
+    &__grid {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}

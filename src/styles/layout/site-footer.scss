@@ -1,0 +1,113 @@
+.site-footer {
+    position: relative;
+    margin-top: 40px;
+    background: linear-gradient(0deg, rgba(221,162,147,1) 0%, rgba(187,68,38,1) 100%);
+    
+    @include media(lg) {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-end;
+        margin-top: 80px;
+    }
+
+    &__contact {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+
+        @include media(lg) {
+            padding: 40px;
+        }
+    }
+
+    &__social {
+        display: flex;
+        justify-content: center;
+    }
+
+    &__link {
+        transition: var(--trs-slow);
+
+        svg {
+            width: 64px;
+            height: 64px;
+            fill: var(--blue);
+        }
+
+        &:hover svg {
+            fill: var(--yellow);
+            transform: scale(1.2);
+        }
+    }
+
+    &__logo {
+        display: block;
+        width: 220px;
+        margin: 0 0 20px;
+
+        @include media(lg) {
+            width: 330px;
+        }
+    }
+
+    &__certs {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    
+        @include media(lg) {
+            justify-content: right;
+            margin-left: auto;
+            padding: 40px;
+        }
+    }
+
+    &__cert-image {
+        height: 70px;
+        margin: 0 10px;
+
+        @include media(lg) {
+            height: 140px;
+        }
+    }
+
+    &__fine-print {
+        width: 100%;
+        padding: 20px;
+        color: var(--black);
+        font-size: 1.75rem;
+        font-weight: 600;
+        text-align: center;
+
+        @include media(lg) {
+            display: flex;
+            align-items: flex-start;
+            padding: 30px 40px 20px;
+            text-align: left;
+        }
+
+        a {
+            color: var(--black);
+            text-decoration: underline;
+
+            &:hover {
+                color: var(--yellow);
+            }
+        }
+    }
+
+    &__fine-print-heading {
+        width: 100%;
+        min-width: 100%;
+        margin: 0 0 20px;
+        color: var(--yellow);
+        line-height: 1;
+
+        @include media(lg) {
+            min-width: 280px;
+            max-width: 280px;
+        }
+    }
+}
