@@ -71,10 +71,11 @@ export default buildConfig({
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
-  // WAC-TODO(owner): the HomePage global + Media.blurhash field need a
-  // migration once the schema is finalised. src/migrations is owner-only,
-  // so local dev relies on Payload's dev-time schema push for now.
-  db: sqliteD1Adapter({ binding: cloudflare.env.D1 }),
+  // Schema is managed by migrations (see src/migrations/ and `payload migrate`).
+  // Dev-time schema push is disabled: it misdetects diffs against
+  // migration-built databases and crashes boot trying to re-create
+  // indexes that already exist (drizzle-vs-D1 introspection bug).
+  db: sqliteD1Adapter({ binding: cloudflare.env.D1, push: false }),
   logger: isProduction ? cloudflareLogger : undefined,
   plugins: [
     r2Storage({
