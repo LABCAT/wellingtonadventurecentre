@@ -7,10 +7,16 @@ import { fileURLToPath } from 'url'
 import { CloudflareContext, getCloudflareContext } from '@opennextjs/cloudflare'
 import { GetPlatformProxyOptions } from 'wrangler'
 import { r2Storage } from '@payloadcms/storage-r2'
+import { nestedDocsPlugin } from '@payloadcms/plugin-nested-docs'
 
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
+import { Page } from './collections/Page'
+import { TourPages } from './collections/TourPages'
+import { PromoPages } from './collections/PromoPages'
+import { BookingEnquiry } from './collections/BookingEnquiry'
 import { HomePage } from './globals/HomePage'
+import { ContactUs } from './globals/ContactUs'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -64,8 +70,8 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media],
-  globals: [HomePage],
+  collections: [Users, Media, Page, TourPages, PromoPages, BookingEnquiry],
+  globals: [HomePage, ContactUs],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
@@ -81,6 +87,10 @@ export default buildConfig({
     r2Storage({
       bucket: cloudflare.env.R2,
       collections: { media: true },
+    }),
+    nestedDocsPlugin({
+      collections: ['pages'],
+      generateURL: (docs) => docs.reduce((url, doc) => (doc.slug ? `${url}/${doc.slug}` : url), ''),
     }),
   ],
 })

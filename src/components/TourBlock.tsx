@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { BlurhashCanvas } from 'react-blurhash'
-import { RichText } from '@payloadcms/richtext-lexical/react'
+import RichText from './RichText'
 import type { Media, HomePage } from '@/payload-types'
 
 type TourBlockData = Extract<
@@ -97,6 +97,7 @@ const TourBlock = ({
               width={media.width ?? 1000}
               height={media.height ?? 667}
               className={`tour-info__image${onScreen ? ' tour-info__image--on-screen' : ''}`}
+              sizes="(max-width: 575px) 576px, (max-width: 767px) 704px, (max-width: 1199px) 800px, (max-width: 1399px) 735px, 1000px"
             />
           )}
         </div>

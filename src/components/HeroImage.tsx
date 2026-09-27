@@ -8,6 +8,11 @@ interface HeroImageProps {
   isContactPage?: boolean
 }
 
+const heroSrc = (heroImage: string) =>
+  heroImage.startsWith('/') || heroImage.startsWith('http')
+    ? heroImage
+    : `/images/hero-banners/${heroImage}`
+
 const HeroImage = ({ heroImage, heroImageMobBGPos, isContactPage }: HeroImageProps) => {
   const [heroLoaded, setHeroLoaded] = useState(false)
   const [waterLoaded, setWaterLoaded] = useState(false)
@@ -16,7 +21,7 @@ const HeroImage = ({ heroImage, heroImageMobBGPos, isContactPage }: HeroImagePro
     if (!heroImage) return
     const img = new window.Image()
     img.onload = () => setHeroLoaded(true)
-    img.src = `/images/hero-banners/${heroImage}`
+    img.src = heroSrc(heroImage)
   }, [heroImage])
 
   useEffect(() => {
@@ -31,7 +36,7 @@ const HeroImage = ({ heroImage, heroImageMobBGPos, isContactPage }: HeroImagePro
       <div
         className={`home-hero${heroLoaded ? ' home-hero--loaded' : ''} home-hero--mob-bg-pos-${heroImageMobBGPos}`}
         style={{
-          backgroundImage: heroImage ? `url(/images/hero-banners/${heroImage})` : 'none',
+          backgroundImage: heroImage ? `url(${heroSrc(heroImage)})` : 'none',
         }}
       />
       {isContactPage && (

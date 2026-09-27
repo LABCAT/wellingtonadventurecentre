@@ -19,11 +19,23 @@
         .feature-block__inner {
             align-items: flex-start;
         }
+
+        .feature-block__content {
+            @include media(xl) {
+                margin-top: 80px;
+            }
+        }
     }
 
     &--bottom {
         .feature-block__inner {
             align-items: flex-end;
+        }
+
+        .feature-block__content {
+            @include media(xl) {
+                margin-bottom: 80px;
+            }
         }
     }
 
@@ -117,8 +129,10 @@
 
     &__body {
         font-size: 2rem;
-        margin: 0;
-        white-space: pre-wrap;
+
+        > :last-child {
+            margin-bottom: 0;
+        }
     }
 }
 

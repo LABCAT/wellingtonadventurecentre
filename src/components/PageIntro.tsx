@@ -1,4 +1,4 @@
-import { RichText } from '@payloadcms/richtext-lexical/react'
+import RichText from './RichText'
 import React from 'react'
 import type { HomePage } from '@/payload-types'
 

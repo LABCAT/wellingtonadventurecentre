@@ -4,17 +4,16 @@ import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { BlurhashCanvas } from 'react-blurhash'
-import type { Media } from '@/payload-types'
+import RichText from './RichText'
+import type { HomePage, Media } from '@/payload-types'
 
-interface FeatureBlockProps {
+type FeatureBlockData = Extract<
+  NonNullable<HomePage['blocks']>[number],
+  { blockType: 'featureBlock' }
+>
+
+type FeatureBlockProps = Omit<FeatureBlockData, 'blockType' | 'blockName' | 'id'> & {
   image: number | Media
-  blurhash?: string | null
-  heading: string
-  headingLevel?: 'h2' | 'h3' | null
-  link?: string | null
-  content?: string | null
-  imagePosition?: 'left' | 'right' | null
-  verticalImagePosition?: 'top' | 'center' | 'bottom' | null
 }
 
 const FeatureBlock = ({
@@ -107,7 +106,11 @@ const FeatureBlock = ({
         )}
         <div className="feature-block__content">
           <Heading className="feature-block__heading">{heading}</Heading>
-          {content && <p className="feature-block__body">{content}</p>}
+          {content && (
+            <div className="feature-block__body">
+              <RichText data={content} />
+            </div>
+          )}
           {link && (
             <Link
               href={link}
