@@ -1,19 +1,17 @@
 import type { GlobalConfig } from 'payload'
-import { FeatureBlock } from '../blocks/FeatureBlock'
-import { TourBlock } from '../blocks/TourBlock'
-import {
-  lexicalEditor,
-  ParagraphFeature,
-  BoldFeature,
-  ItalicFeature,
-  UnderlineFeature,
-  OrderedListFeature,
-  LinkFeature,
-  FixedToolbarFeature,
-} from '@payloadcms/richtext-lexical'
+import { contentBlocksField } from '../fields/blocks'
+import { introFields } from '../fields/intro'
 
 export const HomePage: GlobalConfig = {
   slug: 'home-page',
+  versions: {
+    drafts: true,
+  },
+  admin: {
+    livePreview: {
+      url: () => '/',
+    },
+  },
   fields: [
     { name: 'title', type: 'text', defaultValue: 'Wellington Adventure Centre' },
     {
@@ -28,41 +26,7 @@ export const HomePage: GlobalConfig = {
       },
     },
     { name: 'metaDescription', type: 'text', label: 'Meta Description' },
-    {
-      name: 'introTitle',
-      type: 'textarea',
-      label: 'Intro Title',
-      admin: {
-        description: 'Heading shown above the homepage intro copy.',
-      },
-    },
-    {
-      name: 'intro',
-      type: 'richText',
-      label: 'Intro',
-      editor: lexicalEditor({
-        features: () => [
-          ParagraphFeature(),
-          BoldFeature(),
-          ItalicFeature(),
-          UnderlineFeature(),
-          OrderedListFeature(),
-          LinkFeature(),
-          FixedToolbarFeature(),
-        ],
-      }),
-      admin: {
-        description: 'Intro copy shown below the hero banner.',
-      },
-    },
-    {
-      name: 'blocks',
-      type: 'blocks',
-      label: 'Content Blocks',
-      blocks: [FeatureBlock, TourBlock],
-      admin: {
-        description: 'Blocks rendered below the intro on the home page.',
-      },
-    },
+    ...introFields,
+    contentBlocksField('Blocks rendered below the intro on the home page.'),
   ],
 }

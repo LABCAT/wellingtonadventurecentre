@@ -5,8 +5,9 @@ import type { TextField } from 'payload'
  * admin component (no sharp, so safe on Cloudflare Workers).
  *
  * On blocks (path `*.blurhash`) the component encodes the sibling
- * `image` upload field. On the Media collection itself (path
- * `blurhash`) it encodes the document's own `url`.
+ * `image` upload field, falling back to a sibling `poster` upload
+ * field (used by the video block). On the Media collection itself
+ * (path `blurhash`) it encodes the document's own `url`.
  */
 export const blurhashField = (description?: string): TextField => ({
   name: 'blurhash',
@@ -14,8 +15,7 @@ export const blurhashField = (description?: string): TextField => ({
   label: 'Blurhash',
   admin: {
     description:
-      description ??
-      'Placeholder blur shown while the image loads. Auto-generated from the image.',
+      description ?? 'Placeholder blur shown while the image loads. Auto-generated from the image.',
     components: {
       Field: '/components/BlurhashField',
     },

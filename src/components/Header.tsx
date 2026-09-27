@@ -2,6 +2,7 @@ import dynamic from 'next/dynamic'
 import Image from 'next/image'
 import { Fragment } from 'react'
 import SiteTitle from './SiteTitle'
+import MainMenu from './MainMenu'
 import { getImageAltText } from '@/lib/imageAltText'
 import { taglineLines } from '@/lib/tagline'
 import BlurhashCanvas from './BlurhashCanvas'
@@ -47,6 +48,7 @@ const Header = ({
     >
       <div className="site-header__nav">
         <SiteTitle pageType={pageType} />
+        <MainMenu />
       </div>
       {showHeroBanner ? (
         <>

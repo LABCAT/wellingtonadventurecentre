@@ -5,6 +5,7 @@ const nextConfig: NextConfig = {
   images: {
     loader: 'custom',
     loaderFile: './image-loader.ts',
+    qualities: [55, 75],
     localPatterns: [
       {
         pathname: '/api/media/file/**',

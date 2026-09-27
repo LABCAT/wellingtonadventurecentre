@@ -69,6 +69,10 @@ export interface Config {
   collections: {
     users: User;
     media: Media;
+    pages: Page;
+    'tour-pages': TourPage;
+    'promo-pages': PromoPage;
+    'booking-enquiry': BookingEnquiry;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -78,6 +82,10 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    pages: PagesSelect<false> | PagesSelect<true>;
+    'tour-pages': TourPagesSelect<false> | TourPagesSelect<true>;
+    'promo-pages': PromoPagesSelect<false> | PromoPagesSelect<true>;
+    'booking-enquiry': BookingEnquirySelect<false> | BookingEnquirySelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -89,9 +97,11 @@ export interface Config {
   fallbackLocale: null;
   globals: {
     'home-page': HomePage;
+    'contact-us': ContactUs;
   };
   globalsSelect: {
     'home-page': HomePageSelect<false> | HomePageSelect<true>;
+    'contact-us': ContactUsSelect<false> | ContactUsSelect<true>;
   };
   locale: null;
   widgets: {
@@ -171,6 +181,459 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages".
+ */
+export interface Page {
+  id: number;
+  title: string;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
+  heroImage?: (number | null) | Media;
+  heroImageMobilePosition?: ('center' | 'left' | 'right') | null;
+  metaTitle?: string | null;
+  metaDescription?: string | null;
+  /**
+   * Heading shown above the intro copy.
+   */
+  introTitle?: string | null;
+  /**
+   * Intro copy shown below the hero banner.
+   */
+  intro?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Blocks rendered on the page.
+   */
+  blocks?:
+    | (
+        | {
+            image: number | Media;
+            heading: string;
+            /**
+             * Placeholder blur shown while the image loads. Auto-generated from the image.
+             */
+            blurhash?: string | null;
+            headingLevel?: ('h2' | 'h3') | null;
+            link?: string | null;
+            content?: {
+              root: {
+                type: string;
+                children: {
+                  type: any;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            } | null;
+            imagePosition?: ('left' | 'right') | null;
+            verticalImagePosition?: ('top' | 'center' | 'bottom') | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'featureBlock';
+          }
+        | {
+            image: number | Media;
+            /**
+             * Placeholder blur shown while the image loads. Auto-generated from the image.
+             */
+            blurhash?: string | null;
+            heading: string;
+            description?: {
+              root: {
+                type: string;
+                children: {
+                  type: any;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            } | null;
+            pricingInfo?: string | null;
+            /**
+             * Booking link. Leave empty to show a Call Now button instead.
+             */
+            fareharborUrl?: string | null;
+            /**
+             * Tour page link. Leave empty to hide the Find Out More button.
+             */
+            moreInfoUrl?: string | null;
+            showDiscounts?: boolean | null;
+            imagePosition?: ('left' | 'right') | null;
+            verticalImagePosition?: ('top' | 'center' | 'bottom') | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'tourBlock';
+          }
+        | {
+            /**
+             * YouTube video id, e.g. dQw4w9WgXcQ.
+             */
+            youtubeId: string;
+            /**
+             * Cover image shown over the video until it is played.
+             */
+            poster?: (number | null) | Media;
+            /**
+             * Placeholder blur shown while the poster loads. Auto-generated from the poster.
+             */
+            blurhash?: string | null;
+            /**
+             * Optional heading shown above the video.
+             */
+            heading?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'videoBlock';
+          }
+      )[]
+    | null;
+  parent?: (number | null) | Page;
+  breadcrumbs?:
+    | {
+        doc?: (number | null) | Page;
+        url?: string | null;
+        label?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tour-pages".
+ */
+export interface TourPage {
+  id: number;
+  title: string;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
+  heroImage?: (number | null) | Media;
+  heroImageMobilePosition?: ('center' | 'left' | 'right') | null;
+  metaTitle?: string | null;
+  metaDescription?: string | null;
+  /**
+   * Heading shown above the intro copy.
+   */
+  introTitle?: string | null;
+  /**
+   * Intro copy shown below the hero banner.
+   */
+  intro?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Blocks rendered on the tour page.
+   */
+  blocks?:
+    | (
+        | {
+            image: number | Media;
+            heading: string;
+            /**
+             * Placeholder blur shown while the image loads. Auto-generated from the image.
+             */
+            blurhash?: string | null;
+            headingLevel?: ('h2' | 'h3') | null;
+            link?: string | null;
+            content?: {
+              root: {
+                type: string;
+                children: {
+                  type: any;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            } | null;
+            imagePosition?: ('left' | 'right') | null;
+            verticalImagePosition?: ('top' | 'center' | 'bottom') | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'featureBlock';
+          }
+        | {
+            image: number | Media;
+            /**
+             * Placeholder blur shown while the image loads. Auto-generated from the image.
+             */
+            blurhash?: string | null;
+            heading: string;
+            description?: {
+              root: {
+                type: string;
+                children: {
+                  type: any;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            } | null;
+            pricingInfo?: string | null;
+            /**
+             * Booking link. Leave empty to show a Call Now button instead.
+             */
+            fareharborUrl?: string | null;
+            /**
+             * Tour page link. Leave empty to hide the Find Out More button.
+             */
+            moreInfoUrl?: string | null;
+            showDiscounts?: boolean | null;
+            imagePosition?: ('left' | 'right') | null;
+            verticalImagePosition?: ('top' | 'center' | 'bottom') | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'tourBlock';
+          }
+        | {
+            /**
+             * YouTube video id, e.g. dQw4w9WgXcQ.
+             */
+            youtubeId: string;
+            /**
+             * Cover image shown over the video until it is played.
+             */
+            poster?: (number | null) | Media;
+            /**
+             * Placeholder blur shown while the poster loads. Auto-generated from the poster.
+             */
+            blurhash?: string | null;
+            /**
+             * Optional heading shown above the video.
+             */
+            heading?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'videoBlock';
+          }
+      )[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "promo-pages".
+ */
+export interface PromoPage {
+  id: number;
+  title: string;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
+  heroImage?: (number | null) | Media;
+  heroImageMobilePosition?: ('center' | 'left' | 'right') | null;
+  metaTitle?: string | null;
+  metaDescription?: string | null;
+  /**
+   * Heading shown above the intro copy.
+   */
+  introTitle?: string | null;
+  /**
+   * Intro copy shown below the hero banner.
+   */
+  intro?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Blocks rendered on the promo page.
+   */
+  blocks?:
+    | (
+        | {
+            image: number | Media;
+            heading: string;
+            /**
+             * Placeholder blur shown while the image loads. Auto-generated from the image.
+             */
+            blurhash?: string | null;
+            headingLevel?: ('h2' | 'h3') | null;
+            link?: string | null;
+            content?: {
+              root: {
+                type: string;
+                children: {
+                  type: any;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            } | null;
+            imagePosition?: ('left' | 'right') | null;
+            verticalImagePosition?: ('top' | 'center' | 'bottom') | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'featureBlock';
+          }
+        | {
+            image: number | Media;
+            /**
+             * Placeholder blur shown while the image loads. Auto-generated from the image.
+             */
+            blurhash?: string | null;
+            heading: string;
+            description?: {
+              root: {
+                type: string;
+                children: {
+                  type: any;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            } | null;
+            pricingInfo?: string | null;
+            /**
+             * Booking link. Leave empty to show a Call Now button instead.
+             */
+            fareharborUrl?: string | null;
+            /**
+             * Tour page link. Leave empty to hide the Find Out More button.
+             */
+            moreInfoUrl?: string | null;
+            showDiscounts?: boolean | null;
+            imagePosition?: ('left' | 'right') | null;
+            verticalImagePosition?: ('top' | 'center' | 'bottom') | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'tourBlock';
+          }
+        | {
+            /**
+             * YouTube video id, e.g. dQw4w9WgXcQ.
+             */
+            youtubeId: string;
+            /**
+             * Cover image shown over the video until it is played.
+             */
+            poster?: (number | null) | Media;
+            /**
+             * Placeholder blur shown while the poster loads. Auto-generated from the poster.
+             */
+            blurhash?: string | null;
+            /**
+             * Optional heading shown above the video.
+             */
+            heading?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'videoBlock';
+          }
+      )[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "booking-enquiry".
+ */
+export interface BookingEnquiry {
+  id: number;
+  name: string;
+  email: string;
+  phoneNumber: string;
+  tourType?:
+    | (
+        | 'Grade 3 Wilderness Rafting Tour'
+        | 'Grade 2 Scenic Rafting - Wellington'
+        | 'Grade 2 Scenic Rafting - Wairarapa'
+        | 'Grade 3 Wilderness Inflatable 2 Person Kayak/Duckie Tours'
+        | 'Grade 2 Scenic Inflatable 2 Person Kayak Tours'
+        | 'Akatarawa Canyoning'
+        | 'Premium Helicopter Access Whitewater Rafting'
+        | 'Raft & Abseil Combo - Wairarapa'
+        | 'Bikes and Boats Tour - Wairarapa'
+        | 'Hike In Raft Out Overnight Tour - Wairarapa'
+        | 'Ropes and Rivers Tour - Wellington'
+      )
+    | null;
+  date?: string | null;
+  numberOfPeople?: number | null;
+  additionalInfo?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -200,6 +663,22 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'media';
         value: number | Media;
+      } | null)
+    | ({
+        relationTo: 'pages';
+        value: number | Page;
+      } | null)
+    | ({
+        relationTo: 'tour-pages';
+        value: number | TourPage;
+      } | null)
+    | ({
+        relationTo: 'promo-pages';
+        value: number | PromoPage;
+      } | null)
+    | ({
+        relationTo: 'booking-enquiry';
+        value: number | BookingEnquiry;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -286,6 +765,216 @@ export interface MediaSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages_select".
+ */
+export interface PagesSelect<T extends boolean = true> {
+  title?: T;
+  generateSlug?: T;
+  slug?: T;
+  heroImage?: T;
+  heroImageMobilePosition?: T;
+  metaTitle?: T;
+  metaDescription?: T;
+  introTitle?: T;
+  intro?: T;
+  blocks?:
+    | T
+    | {
+        featureBlock?:
+          | T
+          | {
+              image?: T;
+              heading?: T;
+              blurhash?: T;
+              headingLevel?: T;
+              link?: T;
+              content?: T;
+              imagePosition?: T;
+              verticalImagePosition?: T;
+              id?: T;
+              blockName?: T;
+            };
+        tourBlock?:
+          | T
+          | {
+              image?: T;
+              blurhash?: T;
+              heading?: T;
+              description?: T;
+              pricingInfo?: T;
+              fareharborUrl?: T;
+              moreInfoUrl?: T;
+              showDiscounts?: T;
+              imagePosition?: T;
+              verticalImagePosition?: T;
+              id?: T;
+              blockName?: T;
+            };
+        videoBlock?:
+          | T
+          | {
+              youtubeId?: T;
+              poster?: T;
+              blurhash?: T;
+              heading?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
+  parent?: T;
+  breadcrumbs?:
+    | T
+    | {
+        doc?: T;
+        url?: T;
+        label?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tour-pages_select".
+ */
+export interface TourPagesSelect<T extends boolean = true> {
+  title?: T;
+  generateSlug?: T;
+  slug?: T;
+  heroImage?: T;
+  heroImageMobilePosition?: T;
+  metaTitle?: T;
+  metaDescription?: T;
+  introTitle?: T;
+  intro?: T;
+  blocks?:
+    | T
+    | {
+        featureBlock?:
+          | T
+          | {
+              image?: T;
+              heading?: T;
+              blurhash?: T;
+              headingLevel?: T;
+              link?: T;
+              content?: T;
+              imagePosition?: T;
+              verticalImagePosition?: T;
+              id?: T;
+              blockName?: T;
+            };
+        tourBlock?:
+          | T
+          | {
+              image?: T;
+              blurhash?: T;
+              heading?: T;
+              description?: T;
+              pricingInfo?: T;
+              fareharborUrl?: T;
+              moreInfoUrl?: T;
+              showDiscounts?: T;
+              imagePosition?: T;
+              verticalImagePosition?: T;
+              id?: T;
+              blockName?: T;
+            };
+        videoBlock?:
+          | T
+          | {
+              youtubeId?: T;
+              poster?: T;
+              blurhash?: T;
+              heading?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "promo-pages_select".
+ */
+export interface PromoPagesSelect<T extends boolean = true> {
+  title?: T;
+  generateSlug?: T;
+  slug?: T;
+  heroImage?: T;
+  heroImageMobilePosition?: T;
+  metaTitle?: T;
+  metaDescription?: T;
+  introTitle?: T;
+  intro?: T;
+  blocks?:
+    | T
+    | {
+        featureBlock?:
+          | T
+          | {
+              image?: T;
+              heading?: T;
+              blurhash?: T;
+              headingLevel?: T;
+              link?: T;
+              content?: T;
+              imagePosition?: T;
+              verticalImagePosition?: T;
+              id?: T;
+              blockName?: T;
+            };
+        tourBlock?:
+          | T
+          | {
+              image?: T;
+              blurhash?: T;
+              heading?: T;
+              description?: T;
+              pricingInfo?: T;
+              fareharborUrl?: T;
+              moreInfoUrl?: T;
+              showDiscounts?: T;
+              imagePosition?: T;
+              verticalImagePosition?: T;
+              id?: T;
+              blockName?: T;
+            };
+        videoBlock?:
+          | T
+          | {
+              youtubeId?: T;
+              poster?: T;
+              blurhash?: T;
+              heading?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "booking-enquiry_select".
+ */
+export interface BookingEnquirySelect<T extends boolean = true> {
+  name?: T;
+  email?: T;
+  phoneNumber?: T;
+  tourType?: T;
+  date?: T;
+  numberOfPeople?: T;
+  additionalInfo?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv_select".
  */
 export interface PayloadKvSelect<T extends boolean = true> {
@@ -337,7 +1026,7 @@ export interface HomePage {
   tagline?: string | null;
   metaDescription?: string | null;
   /**
-   * Heading shown above the homepage intro copy.
+   * Heading shown above the intro copy.
    */
   introTitle?: string | null;
   /**
@@ -372,7 +1061,21 @@ export interface HomePage {
             blurhash?: string | null;
             headingLevel?: ('h2' | 'h3') | null;
             link?: string | null;
-            content?: string | null;
+            content?: {
+              root: {
+                type: string;
+                children: {
+                  type: any;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            } | null;
             imagePosition?: ('left' | 'right') | null;
             verticalImagePosition?: ('top' | 'center' | 'bottom') | null;
             id?: string | null;
@@ -417,8 +1120,48 @@ export interface HomePage {
             blockName?: string | null;
             blockType: 'tourBlock';
           }
+        | {
+            /**
+             * YouTube video id, e.g. dQw4w9WgXcQ.
+             */
+            youtubeId: string;
+            /**
+             * Cover image shown over the video until it is played.
+             */
+            poster?: (number | null) | Media;
+            /**
+             * Placeholder blur shown while the poster loads. Auto-generated from the poster.
+             */
+            blurhash?: string | null;
+            /**
+             * Optional heading shown above the video.
+             */
+            heading?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'videoBlock';
+          }
       )[]
     | null;
+  _status?: ('draft' | 'published') | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-us".
+ */
+export interface ContactUs {
+  id: number;
+  title?: string | null;
+  heroImage?: (number | null) | Media;
+  heroImageMobilePosition?: ('center' | 'left' | 'right') | null;
+  metaDescription?: string | null;
+  /**
+   * Email address that will receive booking enquiry notification emails.
+   */
+  emailAddress?: string | null;
+  _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -465,7 +1208,33 @@ export interface HomePageSelect<T extends boolean = true> {
               id?: T;
               blockName?: T;
             };
+        videoBlock?:
+          | T
+          | {
+              youtubeId?: T;
+              poster?: T;
+              blurhash?: T;
+              heading?: T;
+              id?: T;
+              blockName?: T;
+            };
       };
+  _status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-us_select".
+ */
+export interface ContactUsSelect<T extends boolean = true> {
+  title?: T;
+  heroImage?: T;
+  heroImageMobilePosition?: T;
+  metaDescription?: T;
+  emailAddress?: T;
+  _status?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

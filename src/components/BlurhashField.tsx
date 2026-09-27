@@ -75,11 +75,17 @@ const BlurhashField: TextFieldClientComponent = ({ path }) => {
   const lastEncodedUrl = useRef<string | null>(null)
 
   const isBlockField = path !== 'blurhash' && path.endsWith('.blurhash')
-  const siblingImagePath = isBlockField ? `${path.slice(0, -'.blurhash'.length)}.image` : null
+  const siblingBase = isBlockField ? path.slice(0, -'.blurhash'.length) : null
+  const siblingImagePath = siblingBase ? `${siblingBase}.image` : null
+  const siblingPosterPath = siblingBase ? `${siblingBase}.poster` : null
 
   const siblingImageValue = useFormFields(
     ([fields]) =>
       (siblingImagePath ? (fields as any)?.[siblingImagePath]?.value : undefined) as unknown,
+  )
+  const siblingPosterValue = useFormFields(
+    ([fields]) =>
+      (siblingPosterPath ? (fields as any)?.[siblingPosterPath]?.value : undefined) as unknown,
   )
   const mediaUrlValue = useFormFields(([fields]) =>
     !isBlockField ? ((fields as any)?.['url']?.value as string | undefined) : undefined,
@@ -90,7 +96,7 @@ const BlurhashField: TextFieldClientComponent = ({ path }) => {
   useEffect(() => {
     let cancelled = false
     if (isBlockField) {
-      resolveImageUrl(siblingImageValue)
+      resolveImageUrl(siblingImageValue ?? siblingPosterValue)
         .then((url) => {
           if (!cancelled) {
             setImageUrl(url)
@@ -107,7 +113,7 @@ const BlurhashField: TextFieldClientComponent = ({ path }) => {
     return () => {
       cancelled = true
     }
-  }, [isBlockField, siblingImageValue, mediaUrlValue])
+  }, [isBlockField, siblingImageValue, siblingPosterValue, mediaUrlValue])
 
   const generate = useCallback(
     async (url: string) => {

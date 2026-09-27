@@ -22,9 +22,11 @@ test.describe('Frontend', () => {
     await expect(tagline).toContainText('Wellington Adventure Centre')
     await expect(tagline).toContainText('[tagline copy placeholder]')
 
-    // No menu, no gift-voucher promo, no group promo, no feature blocks
-    await expect(page.locator('.main-menu')).toHaveCount(0)
-    await expect(page.locator('.product-promo')).toHaveCount(0)
+    // Navigation menu and the hardcoded gift-voucher promo are back (old-site
+    // parity); the group promo, intro CTA and content blocks stay absent.
+    await expect(page.locator('.main-menu')).toHaveCount(1)
+    await expect(page.locator('.menu-toggle')).toBeVisible()
+    await expect(page.locator('.product-promo')).toHaveCount(1)
     await expect(page.locator('.groups-promo')).toHaveCount(0)
     await expect(page.locator('.page-intro__cta')).toHaveCount(0)
     await expect(page.locator('.feature-block')).toHaveCount(0)

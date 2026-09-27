@@ -1,4 +1,5 @@
 import type { Block } from 'payload'
+import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { blurhashField } from '../fields/blurhash'
 
 export const FeatureBlock: Block = {
@@ -39,8 +40,9 @@ export const FeatureBlock: Block = {
     },
     {
       name: 'content',
-      type: 'textarea',
+      type: 'richText',
       label: 'Body Copy',
+      editor: lexicalEditor(),
     },
     {
       name: 'imagePosition',
