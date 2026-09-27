@@ -19,7 +19,6 @@ const HomePageContent = ({ initialData }: { initialData: HomePage }) => {
       <RefreshRouteOnSave serverURL={serverURL} refresh={() => router.refresh()} />
       <Header
         isHomePage={true}
-        // WAC-TODO: WR placeholder hero; replace with a WAC image in public/images/hero-banners/.
         heroImage="Wellington-Rafting-Hero-Video-Cover.webp"
         tagline={page?.tagline}
       />
